@@ -1,7 +1,7 @@
-package com.hellokoding.auth.validator;
+package com.user.profile;
 
-import com.hellokoding.auth.model.User;
-import com.hellokoding.auth.service.UserService;
+import com.user.profile.model.User;
+import com.user.profile.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -9,6 +9,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import lombok.*;
 
+@Data
 @Component
 public class UserValidator implements Validator {
     @Autowired
@@ -27,7 +28,7 @@ public class UserValidator implements Validator {
         if (user.getUsername().length() < 6 || user.getUsername().length() > 32) {
             errors.rejectValue("username", "Size.userForm.username");
         }
-        if (userService.findByUsername(user.getUsername()) != null) {
+        if (userService.getUser(user.getId()) != null) {
             errors.rejectValue("username", "Duplicate.userForm.username");
         }
 

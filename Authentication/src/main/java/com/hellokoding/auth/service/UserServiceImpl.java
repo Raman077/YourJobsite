@@ -1,7 +1,7 @@
 package com.hellokoding.auth.service;
 
 import com.hellokoding.auth.model.User;
-import com.hellokoding.auth.repository.RoleRepository;
+import com.hellokoding.auth.repository.CompanyRepository;
 import com.hellokoding.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,17 +11,25 @@ import java.util.HashSet;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+
+    public static void main(String[] args) throws Exception {
+     //
+        Company company = new Company();
+        company.set()
+
+
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private RoleRepository roleRepository;
+    private CompanyRepository companyRepository;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(new HashSet<>(roleRepository.findAll()));
+        user.setCompanies(new HashSet<>(CompanyRepository.findAll()));
         userRepository.save(user);
     }
 
@@ -30,3 +38,4 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username);
     }
 }
+
