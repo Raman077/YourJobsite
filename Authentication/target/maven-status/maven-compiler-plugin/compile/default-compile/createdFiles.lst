@@ -1,5 +1,0 @@
-com\hellokoding\auth\validator\UserValidator.class
-com\hellokoding\auth\service\SecurityService.class
-com\hellokoding\auth\model\User.class
-com\hellokoding\auth\service\UserService.class
-com\hellokoding\auth\model\Company.class
