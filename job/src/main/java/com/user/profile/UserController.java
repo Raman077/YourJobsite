@@ -1,19 +1,32 @@
 package com.user.profile;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.user.profile.model.Company;
 import com.user.profile.model.User;
+import com.user.profile.service.CompanyService;
+import com.user.profile.service.SecurityService;
 import com.user.profile.service.UserService;
 
 @Controller
 public class UserController {
   @Autowired
   private UserService userService;
+
+  @Autowired
+  private CompanyService companyService;
+
+  @Autowired
+  private SecurityService securityService;
 
   @GetMapping("/registration")
   public String registration(Model model) {
@@ -32,8 +45,7 @@ public class UserController {
     }
 
     userService.createUser(userForm);
-
-    //    securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
+    securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
 
     return "redirect:/welcome";
   }
@@ -46,8 +58,6 @@ public class UserController {
     if (logout != null)
       model.addAttribute("message", "You have been logged out successfully.");
 
-//    search the db for user, extract id and hit userService.getUser(id)
-//    info retrieved has to be filled in the form
     return "login";
   }
 
@@ -58,7 +68,26 @@ public class UserController {
   }
 
   @GetMapping({"/", "/welcome"})
-  public String welcome(Model model) {
-    return "welcome";
+  public ModelAndView welcome(Model model) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+    User user = userService.getUserByUserName(authentication.getName());
+    Company company = companyService.getCompany(user.getCompanyId());
+    model.addAttribute("jobRole", user.getJobRole());
+    model.addAttribute("company", company.getName());
+    model.addAttribute("companyId", company.getId());
+    return new ModelAndView("welcome","user", model);
+  }
+
+  @GetMapping("/company/{id}")
+  public ModelAndView getCompanyById(@PathVariable("id") String id, Model model) {
+    System.out.println("1");
+    companyService.incrementViews(Long.parseLong(id));
+    Company company =  companyService.getCompany(Long.parseLong(id));
+    model.addAttribute("companyName", company.getName());
+    model.addAttribute("address", company.getAddress());
+    model.addAttribute("views", company.getViews());
+    System.out.println("getcompaniesbyid saved");
+    return new ModelAndView("company", "company", company);
   }
 }

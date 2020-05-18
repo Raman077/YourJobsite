@@ -28,6 +28,12 @@ public class Company {
   @Column(name = "name")
   private String name;
 
+  @Column(name = "address")
+  private String address;
+
+  @Column(name = "views")
+  private Long views;
+
   @OneToMany(fetch = FetchType.EAGER)
   @JoinColumn(name = "company_id")
   private List<User> users;

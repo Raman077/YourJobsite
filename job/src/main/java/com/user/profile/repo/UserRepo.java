@@ -7,13 +7,12 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.user.profile.model.User;
 
-public interface UserRepo extends CrudRepository<User,Long> {
+public interface UserRepo extends CrudRepository<User,Long>, UserRepoCustom {
 
   User save(User user);
 
   List<User> findAll();
 
   Optional<User> findById(Long id);
-  User findByUsername(String username);
-
+  User getUserByUsername(String username);
 }

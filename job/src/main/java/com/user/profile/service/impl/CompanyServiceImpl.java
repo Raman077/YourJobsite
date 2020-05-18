@@ -20,4 +20,16 @@ public class CompanyServiceImpl implements CompanyService {
     Optional<Company> company = companyRepo.findById(id);
     return company.map(comp->comp).orElse(null);
   }
+
+  @Override
+  public Long incrementViews(Long id) {
+    Company company = getCompany(id);
+    Long views = company.getViews();
+    if(views == null) {
+      views = Long.valueOf(0);
+    }
+    views = views +1;
+    company.setViews(views);
+    return companyRepo.save(company).getViews();
+  }
 }

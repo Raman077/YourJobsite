@@ -31,15 +31,15 @@ public class Bootstrap implements CommandLineRunner {
     User user = new User();
     user.setCompanyId((long) 1);
     user.setJobRole("SDE");
-    user.setName("Ray-Man");
+    user.setUsername("Ray-Man");
+    user.setPassword("raman");
     List<Company> companyList = companyRepo.findAll();
 
-    userRepo.save(user);
+    User usr = userRepo.save(user);
 
     companyList = companyRepo.findAll();
+
+    User test = userRepo.getUserByUsername("Ray-Man");
     System.out.println(companyList);
-
-
-
   }
 }
