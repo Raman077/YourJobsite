@@ -10,4 +10,6 @@ Then run
 
 `mvn spring-boot:run`
 
-Go to localhost:8090 and you are ready to go
+Go to localhost:8090 and you are ready to go.
+
+To-Do: Add user profile picture
