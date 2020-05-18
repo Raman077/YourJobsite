@@ -23,7 +23,7 @@ public class Company {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private long id;
+  private Long id;
 
   @Column(name = "name")
   private String name;
@@ -33,6 +33,9 @@ public class Company {
 
   @Column(name = "views")
   private Long views;
+
+  @Column(name = "company_image", length = 1000)
+  private byte[] companyImage;
 
   @OneToMany(fetch = FetchType.EAGER)
   @JoinColumn(name = "company_id")

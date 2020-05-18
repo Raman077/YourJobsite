@@ -16,6 +16,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
   @Override
   public Authentication authenticate(Authentication authentication) {
     String username = authentication.getName();
+
     String password = authentication.getCredentials().toString();
      return new UsernamePasswordAuthenticationToken(username, password, authentication.getAuthorities());
 

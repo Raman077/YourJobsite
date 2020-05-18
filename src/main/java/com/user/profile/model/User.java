@@ -25,14 +25,10 @@ public class User {
   @Column(name = "password")
   private String password;
 
-  @Transient
-  private String passwordConfirm;
-
   @Column(name = "job_role")
   private String jobRole;
 
-  @Column(name = "user_image", columnDefinition = "BLOB")
-  @Lob
+  @Column(name = "user_image", length = 1000)
   private byte[] userImage;
 
   @Column(name = "company_id")

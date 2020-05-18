@@ -2,6 +2,8 @@ package com.user.profile;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,8 +19,15 @@ import com.user.profile.service.CompanyService;
 import com.user.profile.service.SecurityService;
 import com.user.profile.service.UserService;
 
+
+
+
 @Controller
 public class UserController {
+
+
+  private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
   @Autowired
   private UserService userService;
 
@@ -45,7 +54,7 @@ public class UserController {
     }
 
     userService.createUser(userForm);
-    securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
+    securityService.autoLogin(userForm.getUsername(), userForm.getPassword());
 
     return "redirect:/welcome";
   }
@@ -57,7 +66,7 @@ public class UserController {
 
     if (logout != null)
       model.addAttribute("message", "You have been logged out successfully.");
-
+    logger.info("Log In route called");
     return "login";
   }
 
@@ -73,21 +82,21 @@ public class UserController {
 
     User user = userService.getUserByUserName(authentication.getName());
     Company company = companyService.getCompany(user.getCompanyId());
+    model.addAttribute("userImage",user.getUserImage());
     model.addAttribute("jobRole", user.getJobRole());
     model.addAttribute("company", company.getName());
     model.addAttribute("companyId", company.getId());
     return new ModelAndView("welcome","user", model);
   }
 
-  @GetMapping("/company/{id}")
-  public ModelAndView getCompanyById(@PathVariable("id") String id, Model model) {
-    System.out.println("1");
+  @GetMapping("/company")
+  public ModelAndView getCompanyById(@RequestParam(name = "id") String id, Model model) {
     companyService.incrementViews(Long.parseLong(id));
     Company company =  companyService.getCompany(Long.parseLong(id));
     model.addAttribute("companyName", company.getName());
     model.addAttribute("address", company.getAddress());
     model.addAttribute("views", company.getViews());
-    System.out.println("getcompaniesbyid saved");
-    return new ModelAndView("company", "company", company);
+    logger.info("GET company with parameter passing called");
+    return new ModelAndView("company", "company", model);
   }
 }

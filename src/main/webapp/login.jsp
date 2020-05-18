@@ -1,6 +1,11 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
+<fmt:setBundle basename="messages" />
+<fmt:message key="message.password" var="noPass" />
+<fmt:message key="message.username" var="noUser" />
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -29,7 +34,7 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
-            <h4 class="text-center"><a href="${contextPath}/registration">Create an account</a></h4>
+
         </div>
       </form>
     </div>
