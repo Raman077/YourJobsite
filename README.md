@@ -25,9 +25,9 @@ On any web browser, open the link `localhost:8090`. You will be redirected to th
 
 ## To Do
 
-- [] Add user profile picture and company profile picture to the database and display it on the page.
-- [] Show the active number of viewers currently viewing the page.
-- [] Add registration route.
+- [ ] Add user profile picture and company profile picture to the database and display it on the page.
+- [ ] Show the active number of viewers currently viewing the page.
+- [ ] Add registration route.
 
 
 
